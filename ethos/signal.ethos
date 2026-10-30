@@ -1,0 +1,13 @@
+Signal
+[ :flow_nexus_types:[ Address Declaration Model Tokens MetaflowName Peer Holder ] ] ; imports
+[ Configure.Configuration                             ; queries: authoritative configuration
+  Declare.Declaration
+  Threshold.{ Model Tokens }
+  Observe
+  Debug ]
+[ Configured Declared Thresholded                     ; responses
+  Observed.Vector<Declaration>
+  Refused.[ NotOwner StoreRefused Unavailable ] ]
+[ Configuration.{ MetaflowName Vector<Declaration>     ; types: configured peers and a single holder for each address
+                  Vector<Peer> Vector<Ownership> }
+  Ownership.{ Address Holder } ]
