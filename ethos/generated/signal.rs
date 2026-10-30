@@ -13,6 +13,9 @@ pub enum Query {
     Threshold(flow_nexus_types::Threshold),
     Observe,
     Debug,
+    Mutate(flow_nexus_types::evidence::MutationBatch),
+    Read(flow_nexus_types::evidence::ReadSelector),
+    Reconcile(flow_nexus_types::evidence::VerificationTarget),
 }
 #[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
@@ -21,6 +24,7 @@ pub enum Refused_Data {
     NotOwner,
     StoreRefused,
     ConfigurationRefused,
+    Integrity(flow_nexus_types::evidence::Invariant),
     Unavailable,
 }
 #[rustfmt::skip]
@@ -32,5 +36,8 @@ pub enum Response {
     Thresholded,
     Observed(std::vec::Vec<flow_nexus_types::Declaration>),
     Debugged(flow_nexus_types::evidence::DebugProjection),
+    Mutated,
+    ReadRecords(std::vec::Vec<flow_nexus_types::evidence::Record>),
+    Reconciled,
     Refused(Refused_Data),
 }

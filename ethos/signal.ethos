@@ -1,13 +1,18 @@
 Signal
 [ :flow_nexus_types:[ Declaration Threshold Configuration ]
-  :flow_nexus_types:evidence:DebugProjection ]          ; imports: shared config, private typed debug projection
-[ Configure.Configuration                             ; inputs: owner configuration and observation
+  :flow_nexus_types:evidence:[ DebugProjection MutationBatch ReadSelector VerificationTarget Record Invariant ] ] ; imports: private typed owner vocabulary
+[ Configure.Configuration                             ; inputs: authenticated owner configuration and Memory changes
   Declare.Declaration
   Threshold.Threshold
   Observe
-  Debug ]
-[ Configured Declared Thresholded                     ; outputs: private identities occur only on this meta surface
+  Debug
+  Mutate.MutationBatch                                ;   one validated atomic batch
+  Read.ReadSelector                                   ;   typed owner record projection
+  Reconcile.VerificationTarget ]                      ;   request server-owned observation before verification
+[ Configured Declared Thresholded                     ; outputs
   Observed.Vector<Declaration>
   Debugged.DebugProjection
-  Refused.[ NotOwner StoreRefused ConfigurationRefused Unavailable ] ] ;   typed refusal, never a fake success
-[]                                                    ; additional types; no duplicate Configuration or deferred peer routing
+  Mutated ReadRecords.Vector<Record> Reconciled
+  Refused.[ NotOwner StoreRefused ConfigurationRefused  ;   exact integrity rejection, no arbitrary text
+            Integrity.Invariant Unavailable ] ]
+[]                                                    ; additional types
