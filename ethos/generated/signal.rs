@@ -7,33 +7,10 @@
 #[rustfmt::skip]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "datom", derive(datom_codec::Datomizable, datom_codec::Composing))]
-pub struct Configuration {
-    pub metaflow_name: flow_nexus_types::MetaflowName,
-    pub declaration_vector: std::vec::Vec<flow_nexus_types::Declaration>,
-    pub peer_vector: std::vec::Vec<flow_nexus_types::Peer>,
-    pub ownership_vector: std::vec::Vec<Ownership>,
-}
-#[rustfmt::skip]
-#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "datom", derive(datom_codec::Datomizable, datom_codec::Composing))]
-pub struct Ownership {
-    pub address: flow_nexus_types::Address,
-    pub holder: flow_nexus_types::Holder,
-}
-#[rustfmt::skip]
-#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "datom", derive(datom_codec::Datomizable, datom_codec::Composing))]
-pub struct Threshold_Data {
-    pub model: flow_nexus_types::Model,
-    pub tokens: flow_nexus_types::Tokens,
-}
-#[rustfmt::skip]
-#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "datom", derive(datom_codec::Datomizable, datom_codec::Composing))]
 pub enum Query {
-    Configure(Configuration),
+    Configure(flow_nexus_types::Configuration),
     Declare(flow_nexus_types::Declaration),
-    Threshold(Threshold_Data),
+    Threshold(flow_nexus_types::Threshold),
     Observe,
     Debug,
 }
@@ -43,6 +20,7 @@ pub enum Query {
 pub enum Refused_Data {
     NotOwner,
     StoreRefused,
+    ConfigurationRefused,
     Unavailable,
 }
 #[rustfmt::skip]
@@ -53,5 +31,6 @@ pub enum Response {
     Declared,
     Thresholded,
     Observed(std::vec::Vec<flow_nexus_types::Declaration>),
+    Debugged(flow_nexus_types::evidence::DebugProjection),
     Refused(Refused_Data),
 }

@@ -1,13 +1,13 @@
 Signal
-[ :flow_nexus_types:[ Address Declaration Model Tokens MetaflowName Peer Holder ] ] ; imports
-[ Configure.Configuration                             ; queries: authoritative configuration
+[ :flow_nexus_types:[ Declaration Threshold Configuration ]
+  :flow_nexus_types:evidence:DebugProjection ]          ; imports: shared config, private typed debug projection
+[ Configure.Configuration                             ; inputs: owner configuration and observation
   Declare.Declaration
-  Threshold.{ Model Tokens }
+  Threshold.Threshold
   Observe
   Debug ]
-[ Configured Declared Thresholded                     ; responses
+[ Configured Declared Thresholded                     ; outputs: private identities occur only on this meta surface
   Observed.Vector<Declaration>
-  Refused.[ NotOwner StoreRefused Unavailable ] ]
-[ Configuration.{ MetaflowName Vector<Declaration>     ; types: configured peers and a single holder for each address
-                  Vector<Peer> Vector<Ownership> }
-  Ownership.{ Address Holder } ]
+  Debugged.DebugProjection
+  Refused.[ NotOwner StoreRefused ConfigurationRefused Unavailable ] ] ;   typed refusal, never a fake success
+[]                                                    ; additional types; no duplicate Configuration or deferred peer routing
